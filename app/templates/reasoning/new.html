@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <h1 class="section-title">Add reasoning</h1>
+    <p class="muted">For argument on: <a href="{{ url_for('main.view_opinion', opinion_id=argument.opinion.id) }}">{{ argument.opinion.title }}</a></p>
+    <form method="post">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.content.label }}<br>
+            {{ form.content(cols=80, rows=6) }}
+            {% for error in form.content.errors %}<div class="flash flash-danger">{{ error }}</div>{% endfor %}
+        </div>
+        {{ form.submit() }}
+    </form>
+</div>
+{% endblock %}

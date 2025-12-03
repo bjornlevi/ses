@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ config.APP_NAME }}</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="topbar">
+    <div class="brand"><a href="{{ url_for('main.index') }}">{{ config.APP_NAME }}</a></div>
+    <nav class="nav">
+        {% if current_user.is_authenticated %}
+            <span class="user-chip">Signed in as {{ current_user.username }}</span>
+            {% if current_user.is_admin %}
+                <a href="{{ url_for('main.admin_users') }}">Admin</a>
+            {% endif %}
+            <a href="{{ url_for('main.new_opinion') }}">New Opinion</a>
+            <a href="{{ url_for('auth.logout') }}">Logout</a>
+        {% else %}
+            <a href="{{ url_for('auth.login') }}">Login</a>
+            <a class="primary" href="{{ url_for('auth.register') }}">Register</a>
+        {% endif %}
+    </nav>
+</header>
+
+<main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-list">
+                {% for category, message in messages %}
+                    <div class="flash flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+</main>
+</body>
+</html>

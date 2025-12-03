@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <h1 class="section-title">User Admin</h1>
+    <p class="muted">Promote/demote admins and block/unblock accounts.</p>
+</div>
+
+<div class="card">
+    <table style="width:100%; border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th align="left">ID</th>
+                <th align="left">Username</th>
+                <th align="left">Email</th>
+                <th align="left">Admin</th>
+                <th align="left">Blocked</th>
+                <th align="left">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ "Yes" if user.is_admin else "No" }}</td>
+                <td>{{ "Yes" if user.is_blocked else "No" }}</td>
+                <td>
+                    <form method="post" style="display:inline;">
+                        {{ form.csrf_token }}
+                        {{ form.user_id(value=user.id) }}
+                        {% if not user.is_admin %}
+                            {{ form.action(value="promote") }}<button type="submit">Promote</button>
+                        {% else %}
+                            {{ form.action(value="demote") }}<button type="submit">Demote</button>
+                        {% endif %}
+                    </form>
+                    <form method="post" style="display:inline; margin-left:0.25rem;">
+                        {{ form.csrf_token }}
+                        {{ form.user_id(value=user.id) }}
+                        {% if not user.is_blocked %}
+                            {{ form.action(value="block") }}<button type="submit">Block</button>
+                        {% else %}
+                            {{ form.action(value="unblock") }}<button type="submit">Unblock</button>
+                        {% endif %}
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="pill">{{ argument.stance.value|capitalize }} argument</div>
+    <h1 class="section-title">For opinion: <a href="{{ url_for('main.view_opinion', opinion_id=argument.opinion.id) }}">{{ argument.opinion.title }}</a></h1>
+    <div class="markdown">{{ argument.content | markdown | safe }}</div>
+    <div style="margin-top:1rem;">
+        {% if current_user.is_authenticated %}
+            <a class="pill" href="{{ url_for('main.new_reasoning', argument_id=argument.id) }}">+ Add reasoning</a>
+        {% else %}
+            <span class="pill">Login to add reasoning</span>
+        {% endif %}
+    </div>
+</div>
+
+<div class="card">
+    <h2 class="section-title">Reasoning</h2>
+    <div class="stack">
+        {% for item in reasoning %}
+            <div class="card" style="background:#0f141f;">
+                <div class="pill">{{ item.author.username }} • {{ item.created_at.strftime('%b %d, %Y') }}</div>
+                <div class="markdown">{{ item.content | markdown | safe }}</div>
+            </div>
+        {% else %}
+            <p class="muted">No reasoning yet. Contribute the core logic behind this argument.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

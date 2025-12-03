@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <h1 class="section-title">Create an account</h1>
+    <form method="post">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.email.label }}<br>
+            {{ form.email(size=80) }}
+            {% for error in form.email.errors %}<div class="flash flash-danger">{{ error }}</div>{% endfor %}
+        </div>
+        <div>
+            {{ form.username.label }}<br>
+            {{ form.username(size=80) }}
+            {% for error in form.username.errors %}<div class="flash flash-danger">{{ error }}</div>{% endfor %}
+        </div>
+        <div>
+            {{ form.password.label }}<br>
+            {{ form.password(size=80) }}
+            {% for error in form.password.errors %}<div class="flash flash-danger">{{ error }}</div>{% endfor %}
+        </div>
+        <div>
+            {{ form.confirm_password.label }}<br>
+            {{ form.confirm_password(size=80) }}
+            {% for error in form.confirm_password.errors %}<div class="flash flash-danger">{{ error }}</div>{% endfor %}
+        </div>
+        {{ form.submit() }}
+    </form>
+    <p class="muted">Already have an account? <a href="{{ url_for('auth.login') }}">Log in</a>.</p>
+</div>
+{% endblock %}

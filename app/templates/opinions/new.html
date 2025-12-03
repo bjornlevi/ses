@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <h1 class="section-title">Share an opinion</h1>
+    <form method="post">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.title.label }}<br>
+            {{ form.title(size=80) }}
+            {% for error in form.title.errors %}<div class="flash flash-danger">{{ error }}</div>{% endfor %}
+        </div>
+        <div>
+            {{ form.content.label }}<br>
+            {{ form.content(cols=80, rows=8) }}
+            <div class="muted">Keep it concise; Markdown enabled.</div>
+            {% for error in form.content.errors %}<div class="flash flash-danger">{{ error }}</div>{% endfor %}
+        </div>
+        <hr>
+        <h3 class="section-title">Add your first argument and reasoning</h3>
+        <p class="muted">An opinion must start with an argument and its reasoning.</p>
+        <div>
+            {{ form.first_argument_stance.label }}<br>
+            {{ form.first_argument_stance() }}
+            {% for error in form.first_argument_stance.errors %}<div class="flash flash-danger">{{ error }}</div>{% endfor %}
+        </div>
+        <div>
+            {{ form.first_argument_content.label }}<br>
+            {{ form.first_argument_content(cols=80, rows=6) }}
+            {% for error in form.first_argument_content.errors %}<div class="flash flash-danger">{{ error }}</div>{% endfor %}
+        </div>
+        <div>
+            {{ form.first_reasoning_content.label }}<br>
+            {{ form.first_reasoning_content(cols=80, rows=6) }}
+            {% for error in form.first_reasoning_content.errors %}<div class="flash flash-danger">{{ error }}</div>{% endfor %}
+        </div>
+        {{ form.submit() }}
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="pill">{{ opinion.author.username }} • {{ opinion.created_at.strftime('%b %d, %Y') }}</div>
+    <h1>{{ opinion.title }}</h1>
+    <div class="markdown">{{ opinion.content | markdown | safe }}</div>
+    <div style="margin-top:1rem;">
+    </div>
+</div>
+
+<div class="two-col">
+    <div class="card for-section">
+        <h2 class="section-title">Arguments For</h2>
+        {% if current_user.is_authenticated %}
+            <a class="pill for" href="{{ url_for('main.new_argument', opinion_id=opinion.id, stance=Stance.FOR.value) }}">+ Add argument for</a>
+        {% else %}
+            <span class="pill for">Login to add a supporting argument</span>
+        {% endif %}
+        <div class="stack">
+            {% for arg in arguments_for %}
+                <div class="card arg-card for">
+                    <div class="markdown">{{ arg.content | markdown | safe }}</div>
+                    <a class="pill for" href="{{ url_for('main.view_argument', argument_id=arg.id) }}">View reasons</a>
+                    <div class="pill for">Reasons: {{ arg.reasoning|length }}</div>
+                </div>
+            {% else %}
+                <p class="muted">No supporting arguments yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="card against-section">
+        <h2 class="section-title">Arguments Against</h2>
+        {% if current_user.is_authenticated %}
+            <a class="pill against" href="{{ url_for('main.new_argument', opinion_id=opinion.id, stance=Stance.AGAINST.value) }}">+ Add argument against</a>
+        {% else %}
+            <span class="pill against">Login to add an opposing argument</span>
+        {% endif %}
+        <div class="stack">
+            {% for arg in arguments_against %}
+                <div class="card arg-card against">
+                    <div class="markdown">{{ arg.content | markdown | safe }}</div>
+                    <a class="pill against" href="{{ url_for('main.view_argument', argument_id=arg.id) }}">View reasons</a>
+                    <div class="pill against">Reasons: {{ arg.reasoning|length }}</div>
+                </div>
+            {% else %}
+                <p class="muted">No opposing arguments yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

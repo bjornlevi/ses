@@ -1,0 +1,8 @@
+Hi {{ username }},
+
+Welcome to {{ config.APP_NAME }}.
+
+Please confirm your email by visiting:
+{{ confirm_url }}
+
+If you did not request this, you can ignore the email.
